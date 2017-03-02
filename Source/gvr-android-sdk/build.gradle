@@ -1,0 +1,43 @@
+
+
+buildscript {
+
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle-experimental:0.8.3'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+
+        jcenter()
+
+        mavenLocal()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+task extractAudioSo(type: Copy) {
+    from zipTree("${project.rootDir}/libraries/sdk-audio-1.20.0.aar")
+    into "${project.rootDir}/libraries/"
+    include "jni/**/libgvr_audio.so"
+}
+
+task extractGvrSo(type: Copy) {
+    from zipTree("${project.rootDir}/libraries/sdk-base-1.20.0.aar")
+    into "${project.rootDir}/libraries/"
+    include "jni/**/libgvr.so"
+}
+
+task extractNdk { }
+extractNdk.dependsOn extractAudioSo
+extractNdk.dependsOn extractGvrSo

@@ -1,0 +1,22 @@
+
+
+include ':samples:sdk-treasurehunt'
+
+
+
+
+Set moduleList = new HashSet()  // Modules to display in the Project View.
+
+rootProject.children.each { outerDir ->
+    outerDir.children.each { innerDir ->
+
+        innerDir.name = "$outerDir.name-$innerDir.name"
+    }
+    moduleList.addAll(outerDir.children)
+}
+
+
+rootProject.children.clear()
+
+
+rootProject.children.addAll(moduleList)
